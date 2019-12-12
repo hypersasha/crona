@@ -60,6 +60,7 @@ class Home extends Component {
     }
 
     Calculate() {
+        this.CheckForm(); // Fill empty form fields with default values.
         this.business.Update();
 
         let CurrentNPV = this.business.InvestmentProjectEvaluation.CurrentNPV.map(elem => {
@@ -72,6 +73,16 @@ class Home extends Component {
 
         // Open new window with results.
         this.props.navigation.navigate('Results', {CurrentNPV: CurrentNPV, CashFlow: CashFlow});
+    }
+
+    CheckForm() {
+        let current_state = {...this.state};
+        for (let key in current_state) {
+            if (this.business.hasOwnProperty(key)) {
+                current_state[key] = this.business[key].toString();
+            }
+        }
+        this.setState(current_state);
     }
 
     componentDidUpdate() {
@@ -100,7 +111,7 @@ class Home extends Component {
                         onChange={this.OnChange}
                         description={'Укажите ориентировочную стоимость Вашего продукта.'}
                         keyboardType={'decimal-pad'}
-                        value={this.state.LoanCost}
+                        value={this.state.UnitSalesPrice}
                         placeholder={'Введите цену'}/>
                     <Input
                         title={'Цена материала'}
@@ -110,6 +121,7 @@ class Home extends Component {
                         onChange={this.OnChange}
                         description={'Цена материалов за единицу.'}
                         keyboardType={'decimal-pad'}
+                        value={this.state.UnitPrice}
                         placeholder={'Введите цену'}/>
                     <Input
                         title={'Оплата труда'}
@@ -119,6 +131,7 @@ class Home extends Component {
                         onChange={this.OnChange}
                         description={'Сколько средств идет на оплату труда всех сотрудников предприятия.'}
                         keyboardType={'decimal-pad'}
+                        value={this.state.Salary}
                         placeholder={'Введите сумму'}/>
                     <Input
                         title={'Общепроизводные расходы'}
@@ -128,6 +141,7 @@ class Home extends Component {
                         onChange={this.OnChange}
                         description={'Оплата аренды и т. п.'}
                         keyboardType={'decimal-pad'}
+                        value={this.state.GeneralExpenses}
                         placeholder={'Введите сумму'}/>
                     <Input
                         title={'Управленческие расходы'}
@@ -136,6 +150,7 @@ class Home extends Component {
                         id={'ManagementExpenses'}
                         onChange={this.OnChange}
                         keyboardType={'decimal-pad'}
+                        value={this.state.ManagementExpenses}
                         placeholder={'Введите сумму'}/>
                     <Input
                         title={'Расходы на рекламу и сбыт'}
@@ -144,6 +159,7 @@ class Home extends Component {
                         id={'AdvertisingAndMarketingExpenses'}
                         onChange={this.OnChange}
                         units={'у. е.'}
+                        value={this.state.AdvertisingAndMarketingExpenses}
                         placeholder={'Введите сумму'}/>
                     <Button onPress={this.Calculate}></Button>
                 </ScrollView>
