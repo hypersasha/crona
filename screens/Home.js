@@ -63,12 +63,8 @@ class Home extends Component {
         this.CheckForm(); // Fill empty form fields with default values.
         this.business.Update();
 
-        let CurrentNPV = this.business.InvestmentProjectEvaluation.CurrentNPV.map(elem => {
-            return elem / 1000;
-        });
-        let CashFlow = this.business.CashFlowForecast.FinancialActivities.CashBalance.map(elem => {
-            return elem / 1000;
-        });
+        let CurrentNPV = this.business.InvestmentProjectEvaluation.CurrentNPV;
+        let CashFlow = this.business.CashFlowForecast.FinancialActivities.CashBalance;
         this.setState({dataset: CurrentNPV, dataset_dynamic: CashFlow});
 
         // Open new window with results.
