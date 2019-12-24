@@ -1,34 +1,16 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView, ScrollView, StyleSheet, Dimensions
+    SafeAreaView, ScrollView, StyleSheet, Dimensions,
 } from 'react-native';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Business from '../Utils/Business';
-
-import {LineChart} from 'react-native-chart-kit';
 import Title from '../components/Title/Title';
-const chartConfig = {
-    backgroundColor: "#ffffff",
-    backgroundGradientFrom: "#ffffff",
-    backgroundGradientTo: "#ffffff",
-    decimalPlaces: 0, // optional, defaults to 2dp
-    color: (opacity = 1) => `rgba(255, 167, 38, ${opacity})`,
-    labelColor: (opacity = 0.8) => `rgba(0, 0, 0, ${opacity})`,
-    barPercentage: 0.5,
-    propsForBackgroundLines: {
-        strokeWidth: 2,
-        stroke: '#d4d4d4'
-    },
-    propsForDots: {
-        r: "6",
-        color: '#ffa726'
-    }
-};
-const screenWidth = Dimensions.get("window").width;
+
+import LineChart from 'react-native-responsive-linechart';
 
 class Home extends Component {
 
@@ -42,8 +24,13 @@ class Home extends Component {
             GeneralExpenses: '',
             ManagementExpenses: '',
             AdvertisingAndMarketingExpenses: '',
+            LoanCost: '',
+            NumberOfServicesSoldPerYear: '',
+            IncomeTaxRate: '20',
+            DiscountRate: '10',
+            LoanInterest: '18',
             dataset: [0],
-            dataset_dynamic: [0]
+            dataset_dynamic: [0],
         };
 
         this.business = new Business();
@@ -55,8 +42,8 @@ class Home extends Component {
     OnChange(event, id) {
         const text = event.nativeEvent.text;
         this.setState({
-            [id]: text
-        })
+            [id]: text,
+        });
     }
 
     Calculate() {
@@ -99,78 +86,134 @@ class Home extends Component {
                     contentInsetAdjustmentBehavior="automatic"
                     contentContainerStyle={styles.contentContainer}
                     style={styles.scrollView}>
-                    <Input
-                        title={'Цена продукции'}
-                        units={'у. е.'}
-                        maxFontSizeMultiplier={1}
-                        id={'UnitSalesPrice'}
-                        onChange={this.OnChange}
-                        description={'Укажите ориентировочную стоимость Вашего продукта.'}
-                        keyboardType={'decimal-pad'}
-                        value={this.state.UnitSalesPrice}
-                        placeholder={'Введите цену'}/>
-                    <Input
-                        title={'Цена материала'}
-                        units={'у. е.'}
-                        maxFontSizeMultiplier={1}
-                        id={'UnitPrice'}
-                        onChange={this.OnChange}
-                        description={'Цена материалов за единицу.'}
-                        keyboardType={'decimal-pad'}
-                        value={this.state.UnitPrice}
-                        placeholder={'Введите цену'}/>
-                    <Input
-                        title={'Оплата труда'}
-                        units={'у. е.'}
-                        maxFontSizeMultiplier={1}
-                        id={'Salary'}
-                        onChange={this.OnChange}
-                        description={'Сколько средств идет на оплату труда всех сотрудников предприятия.'}
-                        keyboardType={'decimal-pad'}
-                        value={this.state.Salary}
-                        placeholder={'Введите сумму'}/>
-                    <Input
-                        title={'Общепроизводные расходы'}
-                        units={'у. е.'}
-                        maxFontSizeMultiplier={1}
-                        id={'GeneralExpenses'}
-                        onChange={this.OnChange}
-                        description={'Оплата аренды и т. п.'}
-                        keyboardType={'decimal-pad'}
-                        value={this.state.GeneralExpenses}
-                        placeholder={'Введите сумму'}/>
-                    <Input
-                        title={'Управленческие расходы'}
-                        units={'у. е.'}
-                        maxFontSizeMultiplier={1}
-                        id={'ManagementExpenses'}
-                        onChange={this.OnChange}
-                        keyboardType={'decimal-pad'}
-                        value={this.state.ManagementExpenses}
-                        placeholder={'Введите сумму'}/>
-                    <Input
-                        title={'Расходы на рекламу и сбыт'}
-                        keyboardType={'decimal-pad'}
-                        maxFontSizeMultiplier={1}
-                        id={'AdvertisingAndMarketingExpenses'}
-                        onChange={this.OnChange}
-                        units={'у. е.'}
-                        value={this.state.AdvertisingAndMarketingExpenses}
-                        placeholder={'Введите сумму'}/>
-                    <Button onPress={this.Calculate}></Button>
+                    <View style={{backgroundColor: '#FFFFFF', paddingTop: 10}}>
+                        <Title>Основные расходы</Title>
+                        <Input
+                            title={'Цена продукции'}
+                            units={'у. е.'}
+                            maxFontSizeMultiplier={1}
+                            id={'UnitSalesPrice'}
+                            onChange={this.OnChange}
+                            description={'Укажите ориентировочную стоимость Вашего продукта.'}
+                            keyboardType={'decimal-pad'}
+                            value={this.state.UnitSalesPrice}
+                            placeholder={'Введите цену'}/>
+                        <Input
+                            title={'Количество продукции'}
+                            keyboardType={'decimal-pad'}
+                            maxFontSizeMultiplier={1}
+                            id={'NumberOfServicesSoldPerYear'}
+                            description={'Укажите примерное количество товаров или услуг, которые будут продаваться в год.'}
+                            onChange={this.OnChange}
+                            units={'у. е.'}
+                            value={this.state.NumberOfServicesSoldPerYear}
+                            placeholder={'Введите количество'}/>
+                        <Input
+                            title={'Цена материала'}
+                            units={'у. е.'}
+                            maxFontSizeMultiplier={1}
+                            id={'UnitPrice'}
+                            onChange={this.OnChange}
+                            description={'Цена материалов за единицу.'}
+                            keyboardType={'decimal-pad'}
+                            value={this.state.UnitPrice}
+                            placeholder={'Введите цену'}/>
+                        <Input
+                            title={'Общепроизводные расходы'}
+                            units={'у. е.'}
+                            maxFontSizeMultiplier={1}
+                            id={'GeneralExpenses'}
+                            onChange={this.OnChange}
+                            description={'Оплата аренды и т. п.'}
+                            keyboardType={'decimal-pad'}
+                            value={this.state.GeneralExpenses}
+                            placeholder={'Введите сумму'}/>
+                    </View>
+                    <View style={{backgroundColor: '#FFFFFF', marginTop: 10, paddingTop: 10}}>
+                        <Title>Управленческие расходы</Title>
+                        <Input
+                            title={'Управленческие расходы'}
+                            units={'у. е.'}
+                            maxFontSizeMultiplier={1}
+                            id={'ManagementExpenses'}
+                            onChange={this.OnChange}
+                            keyboardType={'decimal-pad'}
+                            value={this.state.ManagementExpenses}
+                            placeholder={'Введите сумму'}/>
+                        <Input
+                            title={'Оплата труда'}
+                            units={'у. е.'}
+                            maxFontSizeMultiplier={1}
+                            id={'Salary'}
+                            onChange={this.OnChange}
+                            description={'Сколько средств идет на оплату труда всех сотрудников предприятия.'}
+                            keyboardType={'decimal-pad'}
+                            value={this.state.Salary}
+                            placeholder={'Введите сумму'}/>
+                        <Input
+                            title={'Расходы на рекламу и сбыт'}
+                            keyboardType={'decimal-pad'}
+                            maxFontSizeMultiplier={1}
+                            id={'AdvertisingAndMarketingExpenses'}
+                            onChange={this.OnChange}
+                            units={'у. е.'}
+                            value={this.state.AdvertisingAndMarketingExpenses}
+                            placeholder={'Введите сумму'}/>
+                    </View>
+                    <View style={{backgroundColor: '#FFFFFF', marginTop: 10, paddingTop: 10}}>
+                        <Title>Инвестиционные расходы</Title>
+                        <Input
+                            title={'Стоимость кредита'}
+                            keyboardType={'decimal-pad'}
+                            maxFontSizeMultiplier={1}
+                            id={'LoanCost'}
+                            onChange={this.OnChange}
+                            units={'у. е.'}
+                            value={this.state.LoanCost}
+                            placeholder={'Введите сумму'}/>
+                        <Input
+                            title={'Процент по кредиту'}
+                            keyboardType={'decimal-pad'}
+                            maxFontSizeMultiplier={1}
+                            id={'LoanInterest'}
+                            onChange={this.OnChange}
+                            units={'%'}
+                            value={this.state.LoanInterest}
+                            placeholder={'Введите процент'}/>
+                        <Input
+                            title={'Налог на прибыль'}
+                            keyboardType={'decimal-pad'}
+                            maxFontSizeMultiplier={1}
+                            id={'IncomeTaxRate'}
+                            onChange={this.OnChange}
+                            description={'Текущая ставка налога на прибыль.'}
+                            units={'%'}
+                            value={this.state.IncomeTaxRate}
+                            placeholder={'Введите ставку'}/>
+                        <Input
+                            title={'Норма дисконта'}
+                            keyboardType={'decimal-pad'}
+                            maxFontSizeMultiplier={1}
+                            id={'DiscountRate'}
+                            onChange={this.OnChange}
+                            description={'Процент по кредиту.'}
+                            value={this.state.DiscountRate}
+                            placeholder={'Например, 10'}/>
+                        <Button onPress={this.Calculate}></Button>
+                    </View>
                 </ScrollView>
             </SafeAreaView>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
     scrollView: {
-        backgroundColor: Colors.white
+        backgroundColor: '#F5F5F5',
     },
     contentContainer: {
-        paddingBottom: 20
-    }
+        paddingBottom: 20,
+    },
 });
 
 export default Home;

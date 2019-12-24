@@ -14,12 +14,13 @@ class Title extends Component {
 const styles = StyleSheet.create({
     title: {
         fontSize: 17,
-        color: '#222222',
+        color: '#666666',
         fontWeight: "700",
         paddingLeft: 16,
         paddingRight: 16,
         paddingTop: 10,
-        paddingBottom: 10
+        paddingBottom: 0,
+        textTransform: 'uppercase'
     }
 });
 

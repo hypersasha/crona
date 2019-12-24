@@ -14,7 +14,7 @@ class Button extends Component {
         return (
             <TouchableOpacity activeOpacity={0.6} {...restProps} >
                 <View style={styles.buttonView}>
-                    <Text  maxFontSizeMultiplier={1} style={styles.buttonText}>Посчитать</Text>
+                    <Text  maxFontSizeMultiplier={1} style={styles.buttonText}>Рассчитать Бизнес-план</Text>
                 </View>
             </TouchableOpacity>
         );
