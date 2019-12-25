@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView, ScrollView, StyleSheet, Dimensions, Text,
+    SafeAreaView, ScrollView, StyleSheet, Text,
 } from 'react-native';
 
 // import {LineChart} from 'react-native-chart-kit';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Title from '../components/Title/Title';
 import LineChart from 'react-native-responsive-linechart';
-import {data} from 'react-native-chart-kit/data';
-
-const screenWidth = Dimensions.get('window').width;
 
 const ResultTable = (props) => {
     const data = props.data || [];
@@ -19,7 +16,7 @@ const ResultTable = (props) => {
             display: 'flex',
             flexDirection: 'row',
             borderBottomColor: '#EAEAEA',
-            backgroundColor: ((i+1) % 2 === 0 ? '#FAFAFA' : '#FFFFFF'),
+            backgroundColor: ((i + 1) % 2 === 0 ? '#FAFAFA' : '#FFFFFF'),
             borderBottomWidth: (i + 1 < arr.length ? 1 : 0),
         }}>
             <View style={{padding: 10, flexBasis: 80}}><Text>Год {i}</Text></View>
@@ -91,7 +88,8 @@ class Results extends Component {
             area: {
                 visible: true,
                 gradientFrom: '#ffa726',
-                gradientFromOpacity: 0.5,
+                gradientFromOpacity: 0.35,
+                gradientTo: '#ffa726',
                 gradientToOpacity: 0,
             },
             tooltip: {
@@ -125,7 +123,9 @@ class Results extends Component {
                     contentInsetAdjustmentBehavior="automatic"
                     contentContainerStyle={styles.contentContainer}
                     style={styles.scrollView}>
-                    <Title>Ваш бизнес-план</Title>
+                    <View style={{paddingBottom: 10, paddingTop: 10}}>
+                        <Title>Ваш бизнес-план</Title>
+                    </View>
                     <Text maxFontSizeMultiplier={1} style={styles.commonText}>
                         Основываясь на данных с предыдущего экрана Crona построила бизнес-план для Вашего проекта. Вы
                         можете вернуться на экран назад, чтобы изменить входные данные.

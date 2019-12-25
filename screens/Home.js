@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView, ScrollView, StyleSheet, Dimensions,
+    SafeAreaView, ScrollView, StyleSheet
 } from 'react-native';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Business from '../Utils/Business';
 import Title from '../components/Title/Title';
-
-import LineChart from 'react-native-responsive-linechart';
 
 class Home extends Component {
 
@@ -129,8 +126,8 @@ class Home extends Component {
                             value={this.state.GeneralExpenses}
                             placeholder={'Введите сумму'}/>
                     </View>
-                    <View style={{backgroundColor: '#FFFFFF', marginTop: 10, paddingTop: 10}}>
-                        <Title>Управленческие расходы</Title>
+                    <View style={{backgroundColor: '#FFFFFF', marginTop: 12, paddingTop: 10}}>
+                        <Title>Дополнительные расходы</Title>
                         <Input
                             title={'Управленческие расходы'}
                             units={'у. е.'}
@@ -160,7 +157,7 @@ class Home extends Component {
                             value={this.state.AdvertisingAndMarketingExpenses}
                             placeholder={'Введите сумму'}/>
                     </View>
-                    <View style={{backgroundColor: '#FFFFFF', marginTop: 10, paddingTop: 10}}>
+                    <View style={{backgroundColor: '#FFFFFF', marginTop: 12, paddingTop: 10}}>
                         <Title>Инвестиционные расходы</Title>
                         <Input
                             title={'Стоимость кредита'}
@@ -197,6 +194,7 @@ class Home extends Component {
                             id={'DiscountRate'}
                             onChange={this.OnChange}
                             description={'Процент по кредиту.'}
+                            units={'%'}
                             value={this.state.DiscountRate}
                             placeholder={'Например, 10'}/>
                         <Button onPress={this.Calculate}></Button>
